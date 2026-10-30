@@ -1,0 +1,16 @@
+# Framework de IA y conexión con Ollama
+langchain>=0.3.0
+langchain-ollama>=0.2.0
+
+# Lectura de documentos (PDF y Word)
+pypdf>=5.0.0
+python-docx>=1.1.0
+
+# Interfaz de usuario web clásica (Respaldo)
+streamlit>=1.39.0
+
+# Servidor Backend API (Nuevo Frontend SaaS)
+fastapi>=0.115.0
+uvicorn>=0.30.0
+python-multipart>=0.0.9
+jinja2>=3.1.4

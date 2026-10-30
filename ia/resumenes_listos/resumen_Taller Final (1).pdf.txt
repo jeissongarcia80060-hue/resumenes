@@ -1,0 +1,14 @@
+## 🎯 1. Tema Central y Propósito
+El documento es una guía de trabajo para un microproyecto de gestión ambiental en un taller de gestión ambiental. El objetivo principal es diseñar e implementar un Plan de Acción Práctico para solucionar o mitigar un problema ambiental. El proyecto debe ser presentado en formato físico y debe cumplir con ciertas secciones específicas, como el diagnóstico del problema, la matriz del plan de acción y la propuesta técnica.
+
+## 📌 2. Puntos Clave y Argumentos Principales
+* El proyecto debe abordar un tema ambiental específico, como la conservación de ecosistemas, la reducción de residuos o la transición energética.
+* El plan de acción debe incluir medidas inmediatas, estructurales y técnicas para abordar el problema.
+* El proyecto debe incluir una propuesta técnica o prototipo que se presentará en una página o anexo.
+* El equipo debe comprometerse a adoptar buenas prácticas ambientales durante la carrera.
+
+## 💡 3. Conclusiones y Hallazgos Más Relevantes
+* El proyecto debe ser original y no repetir temas ya abordados.
+* El plan de acción debe ser concreto y ejecutable.
+* La propuesta técnica debe ser clara y bien explicada.
+* El compromiso del equipo es fundamental para el éxito del proyecto.

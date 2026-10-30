@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athenea — Saca tu resumen en segundos</title>
+    
+    <!-- Tipografía Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (Carga local preferente desde /static/vendor para modo 100% offline) -->
+    <script src="/static/vendor/tailwind.js"></script>
+    <script>
+        if (typeof tailwind === 'undefined') {
+            document.write('<script src="https://cdn.tailwindcss.com"><\/script>');
+        }
+    </script>
+    <script>
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                darkMode: 'class',
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+                            serif: ['Cinzel', 'Georgia', 'serif'],
+                            mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+                        },
+                        colors: {
+                            brand: {
+                                50: '#eef2ff',
+                                100: '#e0e7ff',
+                                200: '#c7d2fe',
+                                300: '#a5b4fc',
+                                400: '#818cf8',
+                                500: '#6366f1',
+                                600: '#4f46e5',
+                                700: '#4338ca',
+                                800: '#3730a3',
+                                900: '#312e81',
+                            }
+                        }
+                    }
+                }
+            };
+        }
+    </script>
+    
+    <!-- Parser de Markdown -->
+    <script src="/static/vendor/marked.min.js"></script>
+    <script>
+        if (typeof marked === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\/script>');
+        }
+    </script>
+    
+    <!-- Iconos Lucide -->
+    <script src="/static/vendor/lucide.min.js"></script>
+    <script>
+        if (typeof lucide === 'undefined') {
+            document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');
+        }
+    </script>
+    
+    <!-- Estilos específicos personalizados -->
+    <link rel="stylesheet" href="/static/css/custom.css">
+</head>
+
+<body class="min-h-full flex flex-col font-sans antialiased bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
+
+    <!-- Luz ambiental sutil (Efecto Glow Cyber/Indigo de alta gama) -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[380px] bg-gradient-to-b from-indigo-600/20 via-violet-600/10 to-transparent blur-[140px] pointer-events-none -z-10"></div>
+
+    <!-- ========================================== -->
+    <!-- BARRA DE NAVEGACIÓN SUPERIOR (SaaS Header) -->
+    <!-- ========================================== -->
+    <header class="border-b border-slate-800/80 bg-slate-950/75 backdrop-blur-xl sticky top-0 z-50 transition-all">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3.5 flex items-center justify-between">
+            
+            <!-- Logotipo y Nombre: ATHENEA -->
+            <div class="flex items-center space-x-3.5 group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <!-- Emblema Geométrico de Athenea en Índigo / Violeta / Cian -->
+                <div class="relative">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-indigo-600 via-violet-500 to-cyan-400 p-[1.5px] shadow-lg shadow-indigo-500/20 group-hover:shadow-indigo-500/40 group-hover:scale-105 transition-all duration-300">
+                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-indigo-600/25 to-cyan-400/15 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            
+                            <!-- Búho / Escudo de Sabiduría en tono cian/indigo brillante -->
+                            <svg class="w-6 h-6 text-cyan-300 group-hover:text-cyan-200 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L4 7v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V7l-8-5z"/>
+                                <path d="M9 12a3 3 0 1 0 6 0 3 3 0 0 0-6 0z"/>
+                                <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                                <path d="M12 7v2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Pulso sutil cian -->
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-cyan-400 rounded-full animate-ping opacity-75"></span>
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-cyan-400 rounded-full"></span>
+                </div>
+
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-serif font-black text-xl tracking-wider bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent">ATHENEA</span>
+                        <span class="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/25 tracking-wider">AI</span>
+                    </div>
+                    <!-- AUTORÍA EN NAVBAR (Discreta y profesional) -->
+                    <p class="text-[11px] text-slate-400 font-medium">
+                        Creado por <span class="text-slate-200 font-semibold">Sebastián Patiño Valencia</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Badges de Estado del Sistema -->
+            <div class="flex items-center space-x-2.5 sm:space-x-3">
+                
+                <!-- Estado de Ollama Local -->
+                <div id="ollama-status-badge" class="flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs font-medium bg-slate-900/90 border border-slate-800 text-slate-300 shadow-sm">
+                    <span id="ollama-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span id="ollama-label">Conectando...</span>
+                </div>
+
+                <!-- Modelo Actual -->
+                <div class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-indigo-950/40 border border-indigo-800/40 text-indigo-300">
+                    <i data-lucide="cpu" class="w-3.5 h-3.5 text-indigo-400"></i>
+                    <span>LLaMA 3.2 (1B Turbo)</span>
+                </div>
+
+                <!-- Badge 100% Offline -->
+                <div class="hidden md:flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-950/30 border border-emerald-800/30 text-emerald-300">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span>100% Offline</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- CONTENEDOR PRINCIPAL                      -->
+    <!-- ========================================== -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-8">
+
+        <!-- INTRO HERO CON FRASE ÉPICA (SIN LA FIRMA AQUÍ) -->
+        <section class="text-center max-w-3xl mx-auto space-y-4">
+            
+            <!-- Badge Superior -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-medium bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 shadow-sm">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-cyan-400"></i>
+                <span>Inferencia & Síntesis Autónoma</span>
+            </div>
+
+            <!-- TÍTULO PRINCIPAL LIMPIO -->
+            <h1 class="text-4xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+                Saca tu resumen en <span class="bg-gradient-to-r from-indigo-400 via-violet-300 to-cyan-300 bg-clip-text text-transparent">segundos.</span>
+            </h1>
+
+            <!-- FRASE ÉPICA DE SÉNECA (Paleta Slate / Indigo / Cian) -->
+            <div class="pt-1">
+                <blockquote class="relative inline-block max-w-2xl px-6 py-3.5 rounded-2xl bg-slate-900/40 border border-slate-800/80 backdrop-blur-sm shadow-inner">
+                    <p class="text-sm sm:text-base font-normal italic text-slate-300 leading-relaxed">
+                        “La verdadera cuestión no es si las máquinas piensan, sino si los humanos lo hacen.”
+                    </p>
+                    <footer class="mt-1.5 text-xs font-semibold tracking-wider text-indigo-300 uppercase font-serif">
+                        - B.F. Skinner. <span class="text-slate-500 text-[10px] lowercase italic font-sans font-normal"></span>
+                    </footer>
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 1: ZONA DE CARGA (DROPZONE) -->
+        <section id="upload-section" class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-6 sm:p-8 backdrop-blur-sm shadow-xl relative overflow-hidden">
+
+            <!-- Pestañas de modo de entrada -->
+            <div class="flex space-x-1 mb-5 bg-slate-950/60 p-1 rounded-xl border border-slate-800/60">
+                <button id="tab-file" onclick="switchTab('file')"
+                    class="flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-lg text-sm font-semibold transition-all bg-indigo-600 text-white shadow-md shadow-indigo-500/20">
+                    <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+                    <span>Subir Archivo</span>
+                </button>
+                <button id="tab-paste" onclick="switchTab('paste')"
+                    class="flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-lg text-sm font-semibold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+                    <i data-lucide="clipboard-paste" class="w-4 h-4"></i>
+                    <span>Pegar Texto</span>
+                </button>
+            </div>
+
+            <!-- Panel Subir Archivo (Dropzone) -->
+            <div id="panel-file">
+                <div id="dropzone" class="relative group border-2 border-dashed border-slate-700/80 hover:border-indigo-500/70 transition-all duration-300 rounded-xl p-8 sm:p-12 text-center cursor-pointer bg-slate-950/50 hover:bg-slate-900/60">
+                    <input type="file" id="file-input" accept=".pdf,.docx" class="hidden">
+                    
+                    <div class="flex flex-col items-center space-y-4">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-800/70 group-hover:bg-indigo-500/15 text-slate-400 group-hover:text-indigo-400 flex items-center justify-center transition-all duration-300 shadow-inner group-hover:scale-110">
+                            <i data-lucide="upload-cloud" class="w-8 h-8"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="text-base font-semibold text-slate-200">
+                                Arrastra y suelta tu archivo aquí, o <span class="text-indigo-400 group-hover:text-cyan-400 group-hover:underline">haz clic para explorar</span>
+                            </p>
+                            <p class="text-xs text-slate-400">
+                                Documentos soportados: <strong class="text-slate-300">Adobe PDF (.pdf)</strong> y <strong class="text-slate-300">Microsoft Word (.docx)</strong>
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-2 pt-2">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-800/80 text-slate-300 border border-slate-700/60">
+                                <i data-lucide="file-text" class="w-3 h-3 mr-1 text-rose-400"></i> PDF
+                            </span>
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-800/80 text-slate-300 border border-slate-700/60">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3 mr-1 text-cyan-400"></i> DOCX
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Overlay de carga -->
+                    <div id="upload-loading-overlay" class="hidden absolute inset-0 bg-slate-950/90 rounded-xl flex flex-col items-center justify-center space-y-3 z-10 backdrop-blur-xs">
+                        <div class="w-9 h-9 border-3 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                        <p class="text-sm font-medium text-slate-200" id="upload-loading-text">Athenea está leyendo y validando el documento...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel Pegar Texto -->
+            <div id="panel-paste" class="hidden space-y-3">
+                <div class="relative">
+                    <textarea
+                        id="paste-textarea"
+                        placeholder="Pega aquí cualquier texto: un artículo, un correo, un fragmento de libro, apuntes de clase..."
+                        class="w-full h-52 bg-slate-950/70 border border-slate-700/80 hover:border-indigo-500/50 focus:border-indigo-500/70 focus:outline-none rounded-xl p-4 text-sm text-slate-200 placeholder-slate-500 resize-none transition-colors leading-relaxed font-sans"
+                    ></textarea>
+                    <!-- Contador de palabras en vivo -->
+                    <div class="absolute bottom-3 right-3 flex items-center space-x-2">
+                        <span id="paste-word-count" class="text-[11px] font-mono text-slate-500">0 palabras</span>
+                        <span id="paste-word-limit-badge" class="hidden text-[11px] font-semibold text-rose-400">/ Límite: {{ max_words_limit }}</span>
+                    </div>
+                </div>
+                <button id="btn-analyze-paste"
+                    class="w-full py-3 px-6 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-500 hover:from-indigo-500 hover:to-violet-500 shadow-lg shadow-indigo-600/20 active:scale-[0.99] transition-all flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i data-lucide="scan-text" class="w-4 h-4"></i>
+                    <span>Analizar Texto con Athenea</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: ALERTA DE GUARDRAIL EXCEDIDO -->
+        <section id="guardrail-alert" class="hidden">
+            <div class="bg-rose-950/25 border border-rose-500/30 rounded-2xl p-6 text-rose-200 space-y-3 shadow-lg">
+                <div class="flex items-start space-x-3">
+                    <div class="p-2 rounded-xl bg-rose-500/20 text-rose-400 flex-shrink-0">
+                        <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-base font-bold text-rose-300">Límite de Longitud Alcanzado</h3>
+                        <p id="guardrail-message" class="text-sm text-rose-200/90 whitespace-pre-line"></p>
+                    </div>
+                </div>
+                <div class="pt-2 flex justify-end">
+                    <button id="btn-retry-upload" class="px-4 py-2 text-xs font-semibold rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 border border-rose-500/30 transition-colors">
+                        Seleccionar otro archivo
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: MÉTRICAS Y VISTA PREVIA DEL DOCUMENTO -->
+        <section id="document-metrics-section" class="hidden space-y-6">
+            
+            <div class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-6 backdrop-blur-sm shadow-xl space-y-6">
+                <!-- Cabecera del archivo cargado -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check-circle" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 id="meta-filename" class="text-base font-bold text-slate-100 truncate max-w-xs sm:max-w-md">archivo.pdf</h2>
+                            <p class="text-xs text-slate-400">Documento analizado con éxito y listo para síntesis</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button id="btn-change-file" class="text-xs text-slate-400 hover:text-slate-200 font-medium px-3 py-1.5 rounded-lg border border-slate-700/80 hover:bg-slate-800 transition-colors">
+                            Cambiar archivo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tarjetas de Métricas -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-slate-950/60 border border-slate-800/70 rounded-xl p-4 text-center">
+                        <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Formato</span>
+                        <p id="meta-type" class="text-xl font-bold text-slate-100 mt-1">PDF</p>
+                        <span id="meta-sub" class="text-[11px] text-slate-500">Páginas detectadas</span>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/70 rounded-xl p-4 text-center">
+                        <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Palabras Totales</span>
+                        <p id="meta-words" class="text-xl font-bold text-indigo-400 mt-1">0</p>
+                        <span class="text-[11px] text-slate-500">Dentro del límite seguro</span>
+                    </div>
+
+                    <div class="bg-slate-950/60 border border-slate-800/70 rounded-xl p-4 text-center">
+                        <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Lectura Humana Est.</span>
+                        <p id="meta-read-time" class="text-xl font-bold text-cyan-400 mt-1">~0 min</p>
+                        <span class="text-[11px] text-slate-500">Tiempo estimado manual</span>
+                    </div>
+                </div>
+
+                <!-- Acordeón / Vista Previa de Texto Extraído -->
+                <details class="group bg-slate-950/30 border border-slate-800/60 rounded-xl overflow-hidden transition-all">
+                    <summary class="px-4 py-3 cursor-pointer select-none text-xs font-medium text-slate-400 hover:text-slate-200 flex items-center justify-between">
+                        <span class="flex items-center space-x-2">
+                            <i data-lucide="eye" class="w-4 h-4 text-slate-400"></i>
+                            <span>Ver fragmento del texto leído (Preview)</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="p-4 pt-1 border-t border-slate-800/60">
+                        <pre id="text-preview" class="text-xs font-mono text-slate-400 whitespace-pre-wrap max-h-48 overflow-y-auto bg-slate-950/80 p-3 rounded-lg border border-slate-800 leading-relaxed"></pre>
+                    </div>
+                </details>
+
+                <!-- BOTÓN PRINCIPAL (Gradiente Épico Índigo/Violeta/Cian, Cero Amarillo) -->
+                <div class="pt-2">
+                    <button id="btn-generate-summary" class="w-full py-4 px-6 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-500 hover:from-indigo-500 hover:to-violet-500 shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/45 active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-cyan-300"></i>
+                        <span>Generar Síntesis con Athenea (En Vivo)</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: VISOR DE RESUMEN EN STREAMING -->
+        <section id="summary-section" class="hidden space-y-4">
+            <div class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-6 sm:p-8 backdrop-blur-sm shadow-xl space-y-6">
+                
+                <!-- Encabezado del Resumen y Temporizador -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="file-check-2" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-slate-100 font-serif tracking-wide">Síntesis Estructurada de Athenea</h3>
+                            <div class="flex items-center space-x-2 text-xs text-slate-400">
+                                <span id="summary-status-label" class="flex items-center text-cyan-400">
+                                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping mr-1.5 inline-block"></span>
+                                    Destilando ideas clave en vivo...
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cronómetro de Inferencia -->
+                    <div class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-950/70 border border-slate-800 text-xs font-mono text-slate-300">
+                        <i data-lucide="clock" class="w-3.5 h-3.5 text-cyan-400"></i>
+                        <span id="summary-timer">0.00s</span>
+                    </div>
+                </div>
+
+                <!-- Contenedor del Resumen en Streaming -->
+                <div class="relative bg-slate-950/70 border border-slate-800/80 rounded-xl p-6 min-h-[220px]">
+                    <div id="summary-content" class="markdown-body prose prose-invert max-w-none text-slate-200 text-sm leading-relaxed">
+                        <!-- El texto generado se inyectará aquí en tiempo real -->
+                    </div>
+                    <!-- Cursor parpadeante índigo/cian -->
+                    <span id="streaming-cursor" class="inline-block w-2 h-4 bg-cyan-400 ml-1 animate-pulse align-middle"></span>
+                </div>
+
+                <!-- Barra de Herramientas de Exportación (Visible al completar) -->
+                <div id="export-toolbar" class="hidden flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800">
+                    <div class="flex items-center space-x-2">
+                        <button id="btn-copy-summary" class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors">
+                            <i data-lucide="copy" class="w-3.5 h-3.5 text-slate-400"></i>
+                            <span id="btn-copy-text">Copiar al portapapeles</span>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <button id="btn-download-txt" class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors">
+                            <i data-lucide="download" class="w-3.5 h-3.5 text-slate-400"></i>
+                            <span>Descargar .TXT</span>
+                        </button>
+                        <button id="btn-download-pdf" class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 transition-colors">
+                            <i data-lucide="file-badge" class="w-3.5 h-3.5 text-indigo-400"></i>
+                            <span>Descargar PDF</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- FOOTER CON AUTORÍA FORMAL                  -->
+    <!-- ========================================== -->
+    <footer class="border-t border-slate-800/80 bg-slate-950 py-8 text-center text-xs text-slate-400">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <span class="font-serif font-bold text-slate-200 text-sm tracking-wide">ATHENEA</span>
+                <span class="text-slate-600">•</span>
+                <p>Creado por <strong class="text-indigo-300 font-semibold">Sebastián Patiño Valencia</strong></p>
+            </div>
+            <p class="font-mono text-[11px] text-slate-500">Inferencia 100% Local • LLaMA 3.2 (1B Turbo) • FastAPI</p>
+        </div>
+    </footer>
+
+    <!-- Lógica JavaScript del Cliente -->
+    <script src="/static/js/app.js"></script>
+    <script>
+        if (window.renderIcons) {
+            window.renderIcons();
+        } else if (window.lucide) {
+            lucide.createIcons();
+        }
+
+        // Función de cambio de pestañas (Subir Archivo / Pegar Texto)
+        function switchTab(tab) {
+            const tabFile  = document.getElementById("tab-file");
+            const tabPaste = document.getElementById("tab-paste");
+            const panelFile  = document.getElementById("panel-file");
+            const panelPaste = document.getElementById("panel-paste");
+
+            const activeClass   = ["bg-indigo-600", "text-white", "shadow-md", "shadow-indigo-500/20"];
+            const inactiveClass = ["text-slate-400", "hover:text-slate-200", "hover:bg-slate-800/50"];
+
+            if (tab === "file") {
+                tabFile.classList.add(...activeClass);
+                tabFile.classList.remove(...inactiveClass);
+                tabPaste.classList.remove(...activeClass);
+                tabPaste.classList.add(...inactiveClass);
+                panelFile.classList.remove("hidden");
+                panelPaste.classList.add("hidden");
+            } else {
+                tabPaste.classList.add(...activeClass);
+                tabPaste.classList.remove(...inactiveClass);
+                tabFile.classList.remove(...activeClass);
+                tabFile.classList.add(...inactiveClass);
+                panelPaste.classList.remove("hidden");
+                panelFile.classList.add("hidden");
+            }
+
+            // Re-renderizar iconos después del cambio de tab
+            if (window.renderIcons) window.renderIcons();
+        }
+    </script>
+</body>
+</html>

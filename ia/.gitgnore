@@ -1,0 +1,6 @@
+
+pycache/
+*.pyc
+.vscode/
+uploads/
+resumenes_listos/
